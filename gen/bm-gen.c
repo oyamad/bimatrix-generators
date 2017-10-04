@@ -13,7 +13,7 @@
 #include "blotto.h"
 
 #define a(i) i - 1
-#define b(i) i + (2*k - 2) 
+#define b(i) i + (2*k - 2)
 #define c(i) i - 1
 #define d(i) i + (2*k - 2)
 
@@ -66,7 +66,7 @@ matrix_t **generate_sgc(int k)
             jp = 1;
         else
             jp = i + 1;
-        
+
         A->data[a(i)][c(jp)] = 0.5;
         B->data[a(i)][c(jp)] = 1.;
 
@@ -96,7 +96,7 @@ matrix_t **generate_sgc(int k)
 
     for (j = 1; j < 2*k; j++)
         B->data[b(i)][c(j)] = 0.5;
-    
+
     B->data[b(i)][d(i - 1)] = 0.75;
     A->data[b(i)][d(i)] = 0.75;
     return game;
@@ -134,7 +134,7 @@ int main(int argc, char **argv)
     int s;
     int r = 0;
     int k = 2;
-    FILE *f;
+    FILE *f = NULL;
     srand(time(NULL));
     while ((c = getopt(argc, argv, "c:s:f:g:r:k:")) != -1)
         switch (c)
@@ -175,6 +175,9 @@ int main(int argc, char **argv)
     matrix_t **g = generate_game(game, s, k, r, info);
     matrix_t *A = g[0];
     matrix_t *B = g[1];
+
+    if (!f)
+        f = stdout;
     write_game_to_file(f, info, A, B);
 
     matrix_free(A);
